@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: deploy-backend-riskmanagement
+  group: deploy-riskmanagement
   cancel-in-progress: true
 
 jobs:
@@ -34,6 +34,6 @@ jobs:
         with:
           app-name: riskmanagement
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
-          package: backend
+          package: .
 
 
