@@ -1,40 +1,13 @@
-name: Deploy Backend to Azure Web App
-
-on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
-
-concurrency:
-  group: deploy-backend-riskmanagement
-  cancel-in-progress: true
-
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-
-      - name: Install dependencies
-        run: npm ci
-        working-directory: backend
-
-      - name: Build
-        run: npm run build
-        working-directory: backend
-
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: riskmanagement
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
-          package: backend
-          # slot-name: Production  # optional (default)
-
-
+- uses: actions/checkout@v4
+- uses: actions/setup-node@v4
+  with:
+    node-version: '18'
+- run: npm ci
+  working-directory: backend
+- run: npm run build
+  working-directory: backend
+- uses: azure/webapps-deploy@v2
+  with:
+    app-name: riskmanagement
+    publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
+    package: backend
